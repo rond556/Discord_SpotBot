@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class SpotifySearch extends ListenerAdapter {
+    private String token = "";
 
     public void onGuildMessageReceived (GuildMessageReceivedEvent event){
         String[] messageSent = event.getMessage().getContentRaw().split(" ");
@@ -25,6 +26,7 @@ public class SpotifySearch extends ListenerAdapter {
         URL url = new URL(getRequestURL(messageSent));
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
+        connection.setRequestProperty("Authorization", "Bearer " + token);
         StringBuilder fullResponse = new StringBuilder();
         fullResponse.append(connection.getResponseCode())
                 .append(" ")
