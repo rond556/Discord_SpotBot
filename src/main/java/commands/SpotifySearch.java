@@ -6,6 +6,7 @@ import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
@@ -36,7 +37,7 @@ public class SpotifySearch extends ListenerAdapter {
         Response response = call.execute();
         String jsonResponse = response.body().string();
         System.out.println(jsonResponse);
-
+        JSONObject object = new JSONObject();
     }
 
     private String getRequestURL(String[] messageSent) {
