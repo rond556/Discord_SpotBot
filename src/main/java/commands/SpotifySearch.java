@@ -6,7 +6,7 @@ import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -37,8 +37,20 @@ public class SpotifySearch extends ListenerAdapter {
                 .build();
         Call call = client.newCall(request);
         Response response = call.execute();
+        assert response.body() != null;
         String jsonResponse = response.body().string();
-        System.out.println(jsonResponse);
+        parseJSONResponse(jsonResponse);
+    }
+
+    private void parseJSONResponse(String jsonResponse) {
+        JSONParser jsonParser = new JSONParser();
+        Object jsonObject = null;
+        try {
+            jsonObject = jsonParser.parse(jsonResponse);
+        }catch(ParseException e){
+            System.out.println("Parse error");
+        }
+        System.out.println(jsonObject);
     }
 
     private String getRequestURL(String[] messageSent) {
