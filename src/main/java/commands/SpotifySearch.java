@@ -7,6 +7,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.json.JSONObject;
+import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.net.URL;
@@ -14,11 +15,12 @@ import java.net.URL;
 public class SpotifySearch extends ListenerAdapter {
     private String token = "";
 
+
     public void onGuildMessageReceived (GuildMessageReceivedEvent event){
         String[] messageSent = event.getMessage().getContentRaw().split(" ");
         if(messageSent[0].equalsIgnoreCase("!spotbot") && messageSent.length >= 2) {
             try {
-                makeAPICall(messageSent, event);
+                makeAPICall(messageSent);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -26,7 +28,7 @@ public class SpotifySearch extends ListenerAdapter {
 
     }
 
-    private void makeAPICall(String[] messageSent, GuildMessageReceivedEvent event) throws IOException {
+    private void makeAPICall(String[] messageSent) throws IOException {
         URL url = new URL(getRequestURL(messageSent));
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -37,7 +39,6 @@ public class SpotifySearch extends ListenerAdapter {
         Response response = call.execute();
         String jsonResponse = response.body().string();
         System.out.println(jsonResponse);
-        JSONObject object = new JSONObject();
     }
 
     private String getRequestURL(String[] messageSent) {
