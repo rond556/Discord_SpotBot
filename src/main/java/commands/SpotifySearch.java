@@ -10,12 +10,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Iterator;
 
 public class SpotifySearch extends ListenerAdapter {
     private String token = "";
@@ -34,6 +30,7 @@ public class SpotifySearch extends ListenerAdapter {
     }
 
     private void makeAPICall(String[] messageSent) throws IOException {
+        PlaylistTool playlistTool = new PlaylistTool();
         URL url = new URL(getRequestURL(messageSent));
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -45,11 +42,11 @@ public class SpotifySearch extends ListenerAdapter {
         assert response.body() != null;
         String jsonResponse = response.body().string();
         System.out.println(jsonResponse);
-        String trackUri = parseJSONResponse(jsonResponse);
-        System.out.println(trackUri);
+        String trackUri = parseJSONResponseForURI(jsonResponse);
+        playlistTool.addSongToPlaylist(trackUri);
     }
 
-    private String parseJSONResponse(String jsonResponse) {
+    private String parseJSONResponseForURI(String jsonResponse) {
         String trackUri = "";
         JSONParser jsonParser = new JSONParser();
         Object jsonObject = null;
@@ -62,12 +59,11 @@ public class SpotifySearch extends ListenerAdapter {
         JSONObject parent =(JSONObject) jsonResults.get("tracks");
         JSONArray items = (JSONArray) parent.get("items");
         for(Object obj : items){
-            System.out.println(((JSONObject) obj).get("name"));
             StringBuilder sb = new StringBuilder();
             sb.append(((JSONObject) obj).get("uri"));
             trackUri = sb.toString();
         }
-        return trackUri;
+        return trackUri.substring(14);
     }
 
     private String getRequestURL(String[] messageSent) {
