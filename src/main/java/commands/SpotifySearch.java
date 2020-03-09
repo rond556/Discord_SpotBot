@@ -6,12 +6,16 @@ import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.json.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Iterator;
 
 public class SpotifySearch extends ListenerAdapter {
     private String token = "";
@@ -40,10 +44,13 @@ public class SpotifySearch extends ListenerAdapter {
         Response response = call.execute();
         assert response.body() != null;
         String jsonResponse = response.body().string();
-        parseJSONResponse(jsonResponse);
+        System.out.println(jsonResponse);
+        String trackUri = parseJSONResponse(jsonResponse);
+        System.out.println(trackUri);
     }
 
-    private void parseJSONResponse(String jsonResponse) {
+    private String parseJSONResponse(String jsonResponse) {
+        String trackUri = "";
         JSONParser jsonParser = new JSONParser();
         Object jsonObject = null;
         try {
@@ -51,7 +58,16 @@ public class SpotifySearch extends ListenerAdapter {
         }catch(ParseException e){
             System.out.println("Parse error");
         }
-        System.out.println(jsonObject);
+        JSONObject jsonResults = (JSONObject) jsonObject;
+        JSONObject parent =(JSONObject) jsonResults.get("tracks");
+        JSONArray items = (JSONArray) parent.get("items");
+        for(Object obj : items){
+            System.out.println(((JSONObject) obj).get("name"));
+            StringBuilder sb = new StringBuilder();
+            sb.append(((JSONObject) obj).get("uri"));
+            trackUri = sb.toString();
+        }
+        return trackUri;
     }
 
     private String getRequestURL(String[] messageSent) {
