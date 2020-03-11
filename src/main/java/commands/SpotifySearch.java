@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.net.URL;
 
 public class SpotifySearch extends ListenerAdapter {
-    private String refreshToken = "AQB2jCvrefvY5jl_-Q4oxrd-fg0ano90rRAZc5_GzKQa0DmcDBwHN6FOXqjYBr7Sl8kcWIzmPN_7Z1BvJauUQyLa6m79rUzKUc_bGyx0clcE5eCk4WqaODZ3GPyopqBbgTE";
+    private String refreshToken = "";
 
 
     public void onGuildMessageReceived (GuildMessageReceivedEvent event){
@@ -76,6 +76,5 @@ public class SpotifySearch extends ListenerAdapter {
         String searchQuery = sb.toString().substring(0,sb.toString().length() - 3).toLowerCase();
         return spotifySearchURL + searchQuery + queryType;
     }
-/*make methods getting the song title and the artist to make a better search engine*/
 
 }

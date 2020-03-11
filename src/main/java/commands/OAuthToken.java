@@ -9,12 +9,12 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 
 public class OAuthToken {
-    private String authCode = "MmEwYTJhM2NmNTIzNDQ1MmIxMGY3MmI1NDhhODg4YjA6MzlhNTBkYjI2YjU1NGUyMzlkMzIwZTEzNjVjMTU2ZGU=";
+    private String authCode = "";
 
     String getOAuthToken() throws IOException {
         String spotifyAccessTokenURL = "https://accounts.spotify.com/api/token";
-        String code = "AQC4cb9FFomuRlVydQ3wmD3Uu-m2tk6y8rRPH-_9kDNMGkUY8iGdPM4fnun9SMSx9VmadvHFpLyr-wTLL00RlEgMan2Trh_csxUiJMPDaIVMgq-ycNF8sC__erxVXaj_udmsqNYGPZiHx4I79zyWUktyDDbMzWK8MSQcdUYDZL1enPbiLStLVvtBP4q_3i7Zsa3i85PT-ml8JFe1ERFIwPg_2eA7bXrxG110AdH5b4qoOhJFhn_4tDqi8VAG";
-        String redirectURI = "https://rosygamingglassesbackend.herokuapp.com/";
+        String code = "";
+        String redirectURI = "";
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
                 .add("grant_type", "authorization_code")
@@ -35,7 +35,7 @@ public class OAuthToken {
         return jsonResponse;
     }
 
-    String refreshAccessToken(String refreshToken) throws IOException {
+    public String refreshAccessToken(String refreshToken) throws IOException {
         OkHttpClient client = new OkHttpClient();
         RequestBody refreshBody = new FormBody.Builder()
                 .add("grant_type","refresh_token")
@@ -48,6 +48,7 @@ public class OAuthToken {
                 .build();
         Call call = client.newCall(refreshRequest);
         Response response = call.execute();
+        assert response.body() != null;
         String refreshResponse = response.body().string();
         return parseRefreshResponse(refreshResponse);
     }

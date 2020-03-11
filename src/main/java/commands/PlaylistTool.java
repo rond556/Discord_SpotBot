@@ -7,14 +7,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class PlaylistTool {
-    private String refreshToken = "AQAgbJvPteF3WhH49shn4BvVrGriCK093rd5KHJMLikBeQY1PSabiMP1ygAGl8W7-keU-e4UkQUjreJnA3Ct4oL0QVYIt0Uxo5zTSfAtYHsSjLYVzV2gEczqEOnxEnClDMQ";
-    private String userId = "pvnnm9axgls1e65xv2igs2avg";
-    private String playlistId = "0G9dupEvvRkt1kFRx6ChIX";
+    private String refreshToken = "";
+    private String playlistId = "";
 
     public void addSongToPlaylist(String trackURI) throws IOException {
         OAuthToken oAuthToken = new OAuthToken();
         String token = oAuthToken.refreshAccessToken(refreshToken);
-        String spotifyURL = "https://api.spotify.com/v1/users/" + userId + "/playlists/" + playlistId + "/tracks";
+        String spotifyURL = "https://api.spotify.com/v1/playlists/" + playlistId + "/tracks?uris=" + trackURI;
         URL url = null;
         try {
             url = new URL(spotifyURL);
