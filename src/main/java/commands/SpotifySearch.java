@@ -76,6 +76,6 @@ public class SpotifySearch extends ListenerAdapter {
         String searchQuery = sb.toString().substring(0,sb.toString().length() - 3).toLowerCase();
         return spotifySearchURL + searchQuery + queryType;
     }
-
+/*make methods getting the song title and the artist to make a better search engine*/
 
 }
