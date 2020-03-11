@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.net.URL;
 
 public class SpotifySearch extends ListenerAdapter {
-    private String refreshToken = "";
+    private String refreshToken = "AQCKvMQEdS-UeHYbAgbiVmZitPoS0RaWqYTMUH5K6-uNGNwUH1lvVKMeCVMJQAMO5CfbW3wGxJ1JP7w_EEFHuZ-YOxl8D1yKC0HdlR15xw_QPZxuUeKi3nNh0eKqvhFk7uk";
 
 
     public void onGuildMessageReceived (GuildMessageReceivedEvent event){

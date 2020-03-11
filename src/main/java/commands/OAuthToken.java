@@ -9,12 +9,12 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 
 public class OAuthToken {
-    private String authCode = "";
+    private String authCode = "ZDNkZmFhN2ExYmVmNGYyOGExYzc0YTlmMDQzMDQ4ZDk6YjAyZmExMGM5YzExNGRlNjkzNzhmMmQ1ODM4ZTc0YWI=";
 
     String getOAuthToken() throws IOException {
         String spotifyAccessTokenURL = "https://accounts.spotify.com/api/token";
         String code = "";
-        String redirectURI = "";
+        String redirectURI = "https://rosygamingglassesbackend.herokuapp.com/";
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
                 .add("grant_type", "authorization_code")
