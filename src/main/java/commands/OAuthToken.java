@@ -11,30 +11,6 @@ import java.io.IOException;
 public class OAuthToken {
     private String authCode = "";
 
-    String getOAuthToken() throws IOException {
-        String spotifyAccessTokenURL = "https://accounts.spotify.com/api/token";
-        String code = "";
-        String redirectURI = "https://rosygamingglassesbackend.herokuapp.com/";
-        OkHttpClient client = new OkHttpClient();
-        RequestBody requestBody = new FormBody.Builder()
-                .add("grant_type", "authorization_code")
-                .add("code",code)
-                .add("redirect_uri",redirectURI)
-                .build();
-        Request request= new Request.Builder()
-                .url(spotifyAccessTokenURL)
-                .addHeader("Authorization","Basic " + authCode)
-                .post(requestBody)
-                .build();
-
-        Call call = client.newCall(request);
-        Response response = call.execute();
-        assert response.body() != null;
-        String jsonResponse = response.body().string();
-        System.out.println(jsonResponse);
-        return jsonResponse;
-    }
-
     public String refreshAccessToken(String refreshToken) throws IOException {
         OkHttpClient client = new OkHttpClient();
         RequestBody refreshBody = new FormBody.Builder()
