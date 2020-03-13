@@ -9,7 +9,7 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 
 public class OAuthToken {
-    private String authCode = "ZDNkZmFhN2ExYmVmNGYyOGExYzc0YTlmMDQzMDQ4ZDk6YjAyZmExMGM5YzExNGRlNjkzNzhmMmQ1ODM4ZTc0YWI=";
+    private String authCode = "";
 
     String getOAuthToken() throws IOException {
         String spotifyAccessTokenURL = "https://accounts.spotify.com/api/token";

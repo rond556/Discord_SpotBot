@@ -7,8 +7,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class PlaylistTool {
-    private String refreshToken = "AQAr7-ydCQrKeFI31LTAdSQgEHqfVnqALgBrPN0h3bbGzTcI2-yjAHaEBCPb8tu9xoP9ohBk25aK3b2J-ZgCf9elho8SuI3c048CaVLuKZOFvj4ngrPDgY4sEGZ3NCd2aGE";
-    private String playlistId = "0G9dupEvvRkt1kFRx6ChIX";
+    private String refreshToken = "";
+    private String playlistId = "";
 
     public void addSongToPlaylist(String trackURI) throws IOException {
         OAuthToken oAuthToken = new OAuthToken();

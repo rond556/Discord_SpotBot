@@ -12,17 +12,19 @@ import java.io.IOException;
 import java.net.URL;
 
 public class SpotifySearch extends ListenerAdapter {
-    private String refreshToken = "AQCKvMQEdS-UeHYbAgbiVmZitPoS0RaWqYTMUH5K6-uNGNwUH1lvVKMeCVMJQAMO5CfbW3wGxJ1JP7w_EEFHuZ-YOxl8D1yKC0HdlR15xw_QPZxuUeKi3nNh0eKqvhFk7uk";
+    private String refreshToken = "";
 
 
     public void onGuildMessageReceived (GuildMessageReceivedEvent event){
-        String[] messageSent = event.getMessage().getContentRaw().split(" ");
-        if(messageSent[0].equalsIgnoreCase("!spotbot") && messageSent.length >= 2) {
+        String[] messageSent = event.getMessage().getContentRaw().split("%%%");
+        if(messageSent[0].equalsIgnoreCase("!spotbot") && messageSent.length >= 3) {
             try {
                 makeAPICall(messageSent);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else if(messageSent[0].equalsIgnoreCase("!spotbot") && messageSent.length <= 1){
+            event.getChannel().sendMessage("Please use the format \"!spotbot%%%song title\" \n or \n \"!spotbot%%%song title%%%artist name\".").queue();
         }
     }
 
@@ -66,15 +68,27 @@ public class SpotifySearch extends ListenerAdapter {
     }
 
     private String getRequestURL(String[] messageSent) {
-        String spotifySearchURL = "https://api.spotify.com/v1/search?q=";
         StringBuilder sb = new StringBuilder();
-        String queryType = "&type=track&limit=1";
-        for(int i = 1; i < messageSent.length; i++){
-            sb.append(messageSent[i]);
+        sb.append("https://api.spotify.com/v1/search?q=track:");
+
+
+        sb.append(splitTrackAndArtist(messageSent[1].toLowerCase()));
+        if(messageSent.length == 3){
+            sb.append("artist:");
+            sb.append(splitTrackAndArtist(messageSent[2].toLowerCase()));
+        }
+        sb.append("&type=track&limit=1");
+        return sb.toString();
+    }
+
+    private String splitTrackAndArtist(String s1) {
+        String[] trackName = s1.split(" ");
+        StringBuilder sb = new StringBuilder();
+        for(String s : trackName){
+            sb.append(s);
             sb.append("%20");
         }
-        String searchQuery = sb.toString().substring(0,sb.toString().length() - 3).toLowerCase();
-        return spotifySearchURL + searchQuery + queryType;
+        return sb.toString();
     }
 
 }
